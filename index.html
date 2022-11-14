@@ -1,0 +1,170 @@
+<html>
+    <head>
+	
+	<link rel="stylesheet" href="leaflet/leaflet.css"/>
+	<script src="leaflet/leaflet.js"></script>
+	
+	<link rel="stylesheet" href="leaflet/leaflet.groupedlayercontrol.css"/> 
+	<script src="leaflet/leaflet.groupedlayercontrol.js"></script>
+	
+	<link rel="stylesheet" href="leaflet/L.Control.MousePosition.css"/> 
+	<script src="leaflet/L.Control.MousePosition.css"></script>
+	
+	<link rel="stylesheet" href="leaflet/L.Control.MousePosition.js"/> 
+	<script src="leaflet/L.Control.MousePosition.js"></script>
+	
+	<link rel="stylesheet" href="leaflet/Control.MiniMap.css"/> 
+	<script src="leaflet/Control.MiniMap.css"></script>
+
+	<link rel="stylesheet" href="leaflet/Control.MiniMap.js"/> 
+	<script src="leaflet/Control.MiniMap.js"></script>
+	
+	<link rel="stylesheet" href="leaflet/Leaflet.LinearMeasurement.css"/> 
+	<script src="leaflet/Leaflet.LinearMeasurement.css"></script>
+	
+	<link rel="stylesheet" href="leaflet/Leaflet.LinearMeasurement.js"/> 
+	<script src="leaflet/Leaflet.LinearMeasurement.js"></script>
+	
+	<link rel="stylesheet" href="leaflet/L.SimpleGraticule.css"/> 
+	<script src="leaflet/L.SimpleGraticule.css"></script>
+	
+	<link rel="stylesheet" href="leaflet/L.SimpleGraticule.js"/> 
+	<script src="leaflet/L.SimpleGraticule.js"></script>
+	
+	<link rel="stylesheet" href="leaflet/geolet.js"/> 
+	<script src="leaflet/geolet.js"></script>
+	
+	<link rel="stylesheet" href="leaflet/leaflet-ruler.js"/> 
+	<script src="leaflet/leaflet-ruler.js"></script>
+	
+	<link rel="stylesheet" href="leaflet/leaflet-ruler.css"/> 
+	<script src="leaflet/leaflet-ruler.css"></script>
+	
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gokertanrisever/leaflet-ruler@master/src/leaflet-ruler.css" integrity="sha384-P9DABSdtEY/XDbEInD3q+PlL+BjqPCXGcF8EkhtKSfSTr/dS5PBKa9+/PMkW2xsY" crossorigin="anonymous">  
+	<script src="https://cdn.jsdelivr.net/gh/gokertanrisever/leaflet-ruler@master/src/leaflet-ruler.js" integrity="sha384-N2S8y7hRzXUPiepaSiUvBH1ZZ7Tc/ZfchhbPdvOE5v3aBBCIepq9l+dBJPFdo1ZJ" crossorigin="anonymous"></script>
+    
+	<link rel="stylesheet" href="leaflet/leaflet-control-boxzoom.js"/> 
+	<script src="leaflet/leaflet-control-boxzoom.js"></script>
+	
+	<link rel="stylesheet" href="leaflet/leaflet-control-boxzoom.css"/> 
+	<script src="leaflet/leaflet-control-boxzoom.css"></script>
+	
+	<link rel="stylesheet" href="leaflet/leaflet-control-boxzoom.svg"/> 
+	<script src="leaflet/leaflet-control-boxzoom.svg"></script>
+	
+	<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+	
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@drustack/leaflet.resetview/dist/L.Control.ResetView.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/@drustack/leaflet.resetview/dist/L.Control.ResetView.min.js"></script>
+	
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mwasil/Leaflet.Rainviewer/leaflet.rainviewer.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/mwasil/Leaflet.Rainviewer/leaflet.rainviewer.js"></script>
+	
+   <body>
+<!-- peta akan ditampilkan disini -->
+         <div style="height:600px" id="mapid"></div>
+    </body>
+	
+	<script src="bangli.js"></script>
+	
+	<script>
+	var mymap = L.map('mapid').setView([-8.3298787,115.3606668], 11);
+	var GoogleMaps = new L.TileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', { 
+     opacity: 1.0, attribution: 'Keterampilan Berkehidupan dan WEBSIG UMS'
+	}).addTo(mymap);
+	var GoogleSatelliteHybrid = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', { 
+     maxZoom: 22, 
+     attribution: 'Ketrampilan Berkehidupan dan WEBSIG UMS' 
+	});
+
+	var baseLayers = {
+     'Google Satellite Hybrid': GoogleSatelliteHybrid,
+     'Google Maps': GoogleMaps,
+	}; 
+
+	L.control.groupedLayers(baseLayers).addTo(mymap);
+	var polyg2 = L.geoJson(polygons.features).addTo(mymap);
+	
+	var marker = L.marker([-8.3298787,115.3606668]).addTo(mymap);
+	
+	marker.bindPopup("<b>Informasi</b><br>Sofie Shuja R, Jihan Aulia M, Ramadhany Ade  – E100200123, E100200128, E100200129");
+	
+	L.control.scale( {position: "topright"} ).addTo(mymap);
+	
+	L.control.mousePosition( {prefix: "Koordinat"} ).addTo(mymap);
+	
+	var north = L.control({position: "bottomleft"});
+	north.onAdd = function(mymap) {
+    var div = L.DomUtil.create("div", "info legend");
+    div.innerHTML = '<img src="north-arrow.png">';
+    return div;
+	}
+	north.addTo(mymap);
+	
+	var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+	var osmAttrib='Map data &copy; OpenStreetMap contributors';
+	var osm = new L.TileLayer(osmUrl, {minZoom: 5, maxZoom: 18, attribution: osmAttrib});
+
+	mymap.addLayer(osm);
+	mymap.setView(new L.LatLng(-8.3298787,115.3606668),11);
+		
+	//Plugin magic goes here! Note that you cannot use the same layer object again, as that will confuse the two map controls
+	var osm2 = new L.TileLayer(osmUrl, {minZoom: 0, maxZoom: 13, attribution: osmAttrib });
+	var miniMap = new L.Control.MiniMap(osm2, { toggleDisplay: true }).addTo(mymap);
+	
+	mymap.addControl(new L.Control.LinearMeasurement({
+        unitSystem: 'metric',
+        color: '#7FFFD4',
+        type: 'line',
+		position: 'topright'
+    }));
+	
+	var options = {interval: 20,
+               showOriginLabel: true,
+               redraw: 'move',
+               zoomIntervals: [
+                {start: 0, end: 3, interval: 50},
+                {start: 4, end: 5, interval: 5},
+                {start: 6, end: 20, interval: 1}
+            ]};
+
+	L.simpleGraticule(options).addTo(mymap);
+	
+	L.geolet({ position: 'topleft' }).addTo(mymap);
+	
+	L.control.ruler( {position: 'topright'} ).addTo(mymap);
+	
+	L.Control.boxzoom({ position:'topleft' }).addTo(mymap);
+	
+	L.control.resetView({
+        position: "topleft",
+        title: "Reset view",
+        latlng: L.latLng([-8.3298787,115.3606668]),
+        zoom: 11,
+    }).addTo(mymap);
+
+	L.control.fullscreen({
+	position: 'topleft', // change the position of the button can be topleft, topright, bottomright or bottomleft, default topleft
+	title: 'Show me the fullscreen !', // change the title of the button, default Full Screen
+	titleCancel: 'Exit fullscreen mode', // change the title of the button when fullscreen is on, default Exit Full Screen
+	content: null, // change the content of the button, can be HTML, default null
+	forceSeparateButton: true, // force separate button to detach from zoom buttons, default false
+	forcePseudoFullscreen: true, // force use of pseudo full screen even if full screen API is available, default false
+	fullscreenElement: false // Dom element to render in full screen, false by default, fallback to map._container
+	}).addTo(mymap);
+
+	L.control.rainviewer({ 
+        position: 'bottomleft',
+        nextButtonText: '>',
+        playStopButtonText: 'Play/Stop',
+        prevButtonText: '<',
+        positionSliderLabelText: "Hour:",
+        opacitySliderLabelText: "Opacity:",
+        animationInterval: 500,
+        opacity: 0.5
+    }).addTo(mymap);
+
+	</script>
+
+</html>
